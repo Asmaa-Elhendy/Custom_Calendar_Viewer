@@ -43,7 +43,7 @@ class CustomCalendarViewer extends StatefulWidget {
   /// - This  will take Date Model
   /// - if you leave the color or text color null this will take the colors from active color for background and active day num style for text color
   final List<Date>? dates;
-
+  final DateTime? initialDate; //new
   /// - Here you can add specific active ranges dates
   /// - This  will take RangeDate Model
   /// - if you leave the color or text color null this will take the colors from active color for background and active day num style for text color
@@ -264,6 +264,7 @@ class CustomCalendarViewer extends StatefulWidget {
 
   const CustomCalendarViewer({
     super.key,
+    this.initialDate, //new
     this.duration = const Duration(milliseconds: 600),
     this.yearDuration = const Duration(milliseconds: 500),
     this.dates,
@@ -357,7 +358,8 @@ List<String> arDays = [];
 
 class _CustomCalendarViewerState extends State<CustomCalendarViewer>
     with SingleTickerProviderStateMixin {
-  DateTime currentDate = DateTime.now();
+ // DateTime currentDate = DateTime.now();  //newcomment
+   late DateTime _currentDate; //new
   final Map<String, String> monthsName = {
     'January': 'يناير',
     'February': 'فبراير',
@@ -410,7 +412,8 @@ class _CustomCalendarViewerState extends State<CustomCalendarViewer>
   @override
   void initState() {
     super.initState();
-
+// Use the initial date if provided, otherwise fallback to DateTime.now()
+    currentDate  = widget.initialDate ?? DateTime.now();//new
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (keys[DateTime.now().month - 1][DateTime.now().day - 1]
               .currentContext !=
